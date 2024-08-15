@@ -115,8 +115,8 @@ class AdminController {
     async signUp(req, res) {
         try {
             const { error } = validateAdmin(req.body);
-            // console.log(req.user)
-            if (error || !req.body) {
+            console.log(req.body)
+            if (error) {
                 return res.status(400).json({
                     variant: "error",
                     msg: "Malumot topilmadi",

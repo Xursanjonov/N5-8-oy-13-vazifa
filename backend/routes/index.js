@@ -3,6 +3,7 @@ import AdminController from '../controller/admin.js'
 import CategoryController from "../controller/category.js"
 import ProductsController from "../controller/products.js"
 import { auth } from '../middleware/auth.js'
+import { fileCreate } from '../middleware/files.js'
 const router = express.Router()
 
 // Admin
@@ -26,7 +27,7 @@ router.delete('/delete/category/:id', CategoryController.deleteCategory)
 // Products
 router.get('/get/products', ProductsController.getProducts)
 router.get('/get/products/:id', ProductsController.getProductId)
-router.post('/create/products', ProductsController.createProducts)
+router.post('/create/products', [fileCreate.array('photos')], ProductsController.createProducts)
 router.put('/update/products/:id', ProductsController.updateProducts)
 router.delete('/delete/products/:id', ProductsController.deleteProducts)
 // Products end

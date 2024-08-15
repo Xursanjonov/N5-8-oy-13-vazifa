@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGODB_BASE_URL)
 app.use('/', Routes);
 // uploads to create a images or videos
 app.use(express.urlencoded({ extended: true }))
-app.use('/uploads', express.static("./images"))
+app.use('/images', express.static("./files"))
 
 const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => console.log(`${PORT} has been listening`));

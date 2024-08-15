@@ -7,8 +7,9 @@ const categorySchema = new Schema({
         required: true
     },
     adminId: {
-        type: String,
-        required: true
+        type: Object,
+        required: true,
+        default: {}
     }
 }, { timestamps: true })
 
@@ -17,7 +18,7 @@ export const Category = model('exam-category', categorySchema)
 export const validateCategory = (body) => {
     const schema = Joi.object({
         title: Joi.string().required(),
-        adminId: Joi.string().required()
+        adminId: Joi.object().required()
     })
     return schema.validateCategory(body)
 }

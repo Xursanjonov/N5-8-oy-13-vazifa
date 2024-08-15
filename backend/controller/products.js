@@ -55,8 +55,16 @@ class ProductsController {
     // post products
     async createProducts(req, res) {
         try {
-            const { error } = validateProduct(req.body)
-            console.log(req.body)
+            const newUrls = req.files.map(file => `${req.protocol}://${req.get("host")}/images/${file.filename}`)
+            const newProduct = {
+                ...req.body,
+                urls: newUrls,
+                categoryId: { id: req.body.categoryId },
+                adminId: { id: req.body.adminId },
+                info: req.body.info.split("\n")
+            }
+            console.log("new product ->", newProduct)
+            const { error } = validateProduct(newProduct)
             if (error) {
                 return res.status(400).json({
                     msg: error.details[0].message,
@@ -64,11 +72,11 @@ class ProductsController {
                     payload: null
                 })
             }
-            const product = await Products.create(req.body)
+            await Products.create(newProduct)
             res.status(201).json({
                 msg: "Products is created successfully",
                 variant: "success",
-                payload: product
+                payload: newProduct
             })
         } catch {
             return res.status(500).json({
