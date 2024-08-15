@@ -1,7 +1,7 @@
-import moongoose from "mongoose"
+import { model, Schema } from "mongoose"
 import Joi from 'joi'
 
-const adminSchema = new moongoose.Schema({
+const adminSchema = new Schema({
     fname: {
         type: String,
         required: true
@@ -40,9 +40,9 @@ const adminSchema = new moongoose.Schema({
     }
 }, { timestamps: true })
 
-export const Admin = moongoose.model('exam-admin', adminSchema)
+export const Admin = model('exam-admin', adminSchema)
 
-export const validateAdmin = (data) => {
+export const validateAdmin = (body) => {
     const schema = Joi.object({
         fname: Joi.string().required(),
         lname: Joi.string().allow(""),
@@ -53,5 +53,5 @@ export const validateAdmin = (data) => {
         hashPassword: Joi.string(),
         isActive: Joi.boolean().allow(true)
     })
-    return schema.validate(data)
+    return schema.validate(body)
 }

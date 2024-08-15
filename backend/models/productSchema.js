@@ -1,7 +1,7 @@
-import moongoose from "mongoose"
-import Joi from 'joi'
+import { model, Schema } from "mongoose"
+import Joi, { object } from 'joi'
 
-const productSchema = new moongoose.Schema({
+const productSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -31,14 +31,14 @@ const productSchema = new moongoose.Schema({
         default: 0
     },
     categoryId: {
-        type: String,
-        required: false,
-        default: "categoryId-1"
+        type: object,
+        required: true,
+        default: {}
     },
     adminId: {
-        type: String,
-        required: false,
-        default: "adminId-1"
+        type: object,
+        required: true,
+        default: {}
     },
     units: {
         type: String,
@@ -63,9 +63,9 @@ const productSchema = new moongoose.Schema({
     }
 }, { timestamps: true })
 
-export const Products = moongoose.model('exam-product', productSchema)
+export const Products = model('exam-product', productSchema)
 
-export const validateProduct = (data) => {
+export const validateProduct = (body) => {
     const schema = Joi.object({
         title: Joi.string().required(),
         price: Joi.number().required(),
@@ -73,13 +73,13 @@ export const validateProduct = (data) => {
         stock: Joi.number().allow(0),
         rating: Joi.number().allow(0),
         views: Joi.number().allow(0),
-        categoryId: Joi.string().required(),
-        adminId: Joi.string().required(),
+        categoryId: Joi.object().required(),
+        adminId: Joi.object().required(),
         units: Joi.string().allow(""),
         description: Joi.string().required(),
         urls: Joi.array(),
         info: Joi.array(),
         available: Joi.boolean()
     })
-    return schema.validate(data)
+    return schema.validate(body)
 }

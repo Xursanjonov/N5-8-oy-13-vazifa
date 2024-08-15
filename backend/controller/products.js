@@ -54,28 +54,29 @@ class ProductsController {
     }
     // post products
     async createProducts(req, res) {
-        // try {
-        const { error } = validateProduct(req.body)
-        if (error) {
-            return res.status(400).json({
-                msg: error.details[0].message,
+        try {
+            const { error } = validateProduct(req.body)
+            console.log(req.body)
+            if (error) {
+                return res.status(400).json({
+                    msg: error.details[0].message,
+                    variant: "error",
+                    payload: null
+                })
+            }
+            const product = await Products.create(req.body)
+            res.status(201).json({
+                msg: "Products is created successfully",
+                variant: "success",
+                payload: product
+            })
+        } catch {
+            return res.status(500).json({
+                msg: "Server error",
                 variant: "error",
                 payload: null
             })
         }
-        const product = new Products(req.body)
-        res.status(201).json({
-            msg: "Products is created successfully",
-            variant: "success",
-            payload: product
-        })
-        // } catch {
-        //     return res.status(500).json({
-        //         msg: "Server error",
-        //         variant: "error",
-        //         payload: null
-        //     })
-        // }
     }
     // update products
     async updateProducts(req, res) {

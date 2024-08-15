@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 import Joi from "joi";
 
-const categorySchema = new mongoose.Schema({
+const categorySchema = new Schema({
     title: {
         type: String,
         required: true
@@ -12,12 +12,12 @@ const categorySchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-export const Category = mongoose.model('exam-category', categorySchema)
+export const Category = model('exam-category', categorySchema)
 
-export const validateCategory = (data) => {
+export const validateCategory = (body) => {
     const schema = Joi.object({
         title: Joi.string().required(),
         adminId: Joi.string().required()
     })
-    return schema.validateCategory(data)
+    return schema.validateCategory(body)
 }

@@ -18,7 +18,7 @@ router.delete('/delete/admins/:id', [auth], AdminController.deleteAdminId)
 
 // Category
 router.get('/get/category', CategoryController.getCategory)
-router.post('/create/category', CategoryController.createCategory)
+router.post('/create/category', [auth], CategoryController.createCategory)
 router.put('/update/category/:id', CategoryController.updateCategory)
 router.delete('/delete/category/:id', CategoryController.deleteCategory)
 // Category end
